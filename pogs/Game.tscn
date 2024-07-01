@@ -1,0 +1,119 @@
+[gd_scene load_steps=20 format=3 uid="uid://dkpe1yyu3u7m3"]
+
+[ext_resource type="Script" path="res://pogs/Mat.gd" id="1_daxj0"]
+[ext_resource type="Texture2D" uid="uid://dnjn3tmqrp5nh" path="res://textures/mat_tex.png" id="2_ylk3n"]
+[ext_resource type="Texture2D" uid="uid://dfkknt3e7khgh" path="res://textures/n64.jpg" id="3_ykvuh"]
+[ext_resource type="Texture2D" uid="uid://bkcpsjx8ojsvp" path="res://textures/goldeneye.gif" id="4_76w3a"]
+[ext_resource type="Texture2D" uid="uid://cjhuifnriobey" path="res://textures/carpet.png" id="5_din0u"]
+[ext_resource type="PackedScene" uid="uid://bkfk0j80ev1a5" path="res://match/Board.tscn" id="7_mmuyg"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_086sq"]
+bounce = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_48q3h"]
+albedo_texture = ExtResource("2_ylk3n")
+uv1_scale = Vector3(2, 2, 2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cpd4l"]
+material = SubResource("StandardMaterial3D_48q3h")
+top_radius = 5.0
+bottom_radius = 5.0
+height = 0.1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0f3j7"]
+height = 0.1
+radius = 5.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c0wl8"]
+albedo_texture = ExtResource("3_ykvuh")
+disable_receive_shadows = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hjowh"]
+material = SubResource("StandardMaterial3D_c0wl8")
+size = Vector2(30, 30)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1cnak"]
+albedo_texture = ExtResource("4_76w3a")
+
+[sub_resource type="QuadMesh" id="QuadMesh_si7bh"]
+material = SubResource("StandardMaterial3D_1cnak")
+size = Vector2(9.5, 5.8)
+center_offset = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+orientation = 1
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rt7ei"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arxyh"]
+albedo_texture = ExtResource("5_din0u")
+uv1_scale = Vector3(4, 4, 4)
+uv1_offset = Vector3(2.08165e-12, 2.08165e-12, 2.08165e-12)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qhfqh"]
+material = SubResource("StandardMaterial3D_arxyh")
+size = Vector2(40, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6fcai"]
+size = Vector3(40, 2.08165e-12, 20)
+
+[sub_resource type="SystemFont" id="SystemFont_3adtj"]
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_daxj0")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, -3.37223e-16, 3.48595e-16, 3.48595e-16, 0.99945, -0.0331552, -3.37223e-16, 0.0331552, 0.99945, 0.01, 5.919, 13.45)
+
+[node name="Lamp" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.769962, -0.608097, 0.193329, 0.394265, 0.69161, 0.60517, -0.50171, -0.389735, 0.772265, 5.44022, 10.2895, 1.17344)
+light_color = Color(0.98, 1, 0.7, 1)
+light_energy = 0.858
+shadow_enabled = true
+sky_mode = 1
+
+[node name="Mat" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.05, 2.08165e-12)
+physics_material_override = SubResource("PhysicsMaterial_086sq")
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mat"]
+mesh = SubResource("CylinderMesh_cpd4l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mat"]
+shape = SubResource("CylinderShape3D_0f3j7")
+
+[node name="Backdrop" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, -6.66422e-31, 2.91302e-38, 0, -4.37114e-08, -1, 6.66422e-31, 1, -4.37114e-08, 0.032, 14.9108, -10.0892)
+mesh = SubResource("PlaneMesh_hjowh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Backdrop"]
+transform = Transform3D(0.770533, 0.279197, 0.026998, -0.256182, 0.73261, -0.264678, -0.114239, 0.240276, 0.77564, -3.26095, 3.11236, -4.30026)
+mesh = SubResource("QuadMesh_si7bh")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_rt7ei")
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("PlaneMesh_qhfqh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_6fcai")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Board" parent="CanvasLayer" instance=ExtResource("7_mmuyg")]
+
+[node name="Score" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.960721, 0)
+pixel_size = 0.029
+billboard = 1
+no_depth_test = true
+modulate = Color(0, 1, 0, 1)
+text = "
+"
+font = SubResource("SystemFont_3adtj")
+outline_size = 7
+
+[connection signal="pogs_done" from="." to="CanvasLayer/Board" method="_on_game_pogs_done"]
+[connection signal="piece_destroyed" from="CanvasLayer/Board" to="." method="_on_board_piece_destroyed"]
+[connection signal="resolved" from="CanvasLayer/Board" to="." method="_on_board_resolved"]

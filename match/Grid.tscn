@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://q0ed02min5q4"]
+
+[ext_resource type="Script" path="res://match/grid.gd" id="1_1e4pi"]
+
+[node name="grid" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_1e4pi")

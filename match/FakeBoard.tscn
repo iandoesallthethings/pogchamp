@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://cj026e1ko4iwy"]
+
+[ext_resource type="Script" path="res://match/FakeBoard.gd" id="1_bp4jy"]
+
+[node name="FakeBoard" type="Node2D"]
+script = ExtResource("1_bp4jy")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 648.0
+offset_bottom = 1152.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Container" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Bar" type="HSlider" parent="CenterContainer/Container"]
+layout_mode = 2
+min_value = 1.0
+max_value = 10.0
+step = 3.0
+value = 4.0
+
+[node name="Button" type="Button" parent="CenterContainer/Container"]
+layout_mode = 2
+text = "Add Pogz"
+
+[connection signal="pressed" from="CenterContainer/Container/Button" to="." method="_on_button_pressed"]

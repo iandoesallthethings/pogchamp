@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://bkfk0j80ev1a5"]
+
+[ext_resource type="Script" path="res://match/Board.gd" id="3_va6q8"]
+[ext_resource type="PackedScene" uid="uid://q0ed02min5q4" path="res://match/Grid.tscn" id="4_hpcod"]
+[ext_resource type="Script" path="res://match/ComboTimer.gd" id="5_av1ie"]
+[ext_resource type="PackedScene" uid="uid://ddgs34nhhfiln" path="res://match/StateMachine.tscn" id="9_kj0i4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7nyls"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_67vtf"]
+bg_color = Color(0, 1, 0.560784, 1)
+
+[sub_resource type="Theme" id="Theme_6pde1"]
+ProgressBar/styles/background = SubResource("StyleBoxEmpty_7nyls")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_67vtf")
+
+[node name="Board" type="Control"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -327.0
+offset_top = -641.0
+offset_right = 327.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("3_va6q8")
+
+[node name="state" parent="." instance=ExtResource("9_kj0i4")]
+
+[node name="grid" parent="." instance=ExtResource("4_hpcod")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -448.0
+offset_top = -320.0
+offset_right = 448.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="combo_timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+script = ExtResource("5_av1ie")
+
+[node name="meter" type="ProgressBar" parent="combo_timer"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.994792
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -315.0
+offset_top = -650.0
+offset_right = 315.0
+offset_bottom = -643.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_6pde1")
+rounded = true
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[connection signal="swipe_end" from="grid" to="." method="_on_grid_swipe_end"]
+[connection signal="timeout" from="combo_timer" to="." method="_on_combo_timer_timeout"]

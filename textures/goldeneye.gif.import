@@ -1,0 +1,14 @@
+[remap]
+
+importer="import_gif_to_animated_texture"
+type="AnimatedTexture"
+uid="uid://bkcpsjx8ojsvp"
+path="res://.godot/imported/goldeneye.gif-2e240c0312abcc8739432ad3fc80e8c0.tres"
+
+[deps]
+
+source_file="res://textures/goldeneye.gif"
+dest_files=["res://.godot/imported/goldeneye.gif-2e240c0312abcc8739432ad3fc80e8c0.tres"]
+
+[params]
+
