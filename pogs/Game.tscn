@@ -1,28 +1,12 @@
-[gd_scene load_steps=20 format=3 uid="uid://dkpe1yyu3u7m3"]
+[gd_scene load_steps=24 format=3 uid="uid://dkpe1yyu3u7m3"]
 
 [ext_resource type="Script" path="res://pogs/Mat.gd" id="1_daxj0"]
 [ext_resource type="Texture2D" uid="uid://dnjn3tmqrp5nh" path="res://textures/mat_tex.png" id="2_ylk3n"]
 [ext_resource type="Texture2D" uid="uid://dfkknt3e7khgh" path="res://textures/n64.jpg" id="3_ykvuh"]
 [ext_resource type="Texture2D" uid="uid://bkcpsjx8ojsvp" path="res://textures/goldeneye.gif" id="4_76w3a"]
 [ext_resource type="Texture2D" uid="uid://cjhuifnriobey" path="res://textures/carpet.png" id="5_din0u"]
+[ext_resource type="Script" path="res://match/ComboTimer.gd" id="7_8r5q2"]
 [ext_resource type="PackedScene" uid="uid://bkfk0j80ev1a5" path="res://match/Board.tscn" id="7_mmuyg"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_086sq"]
-bounce = 0.2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_48q3h"]
-albedo_texture = ExtResource("2_ylk3n")
-uv1_scale = Vector3(2, 2, 2)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_cpd4l"]
-material = SubResource("StandardMaterial3D_48q3h")
-top_radius = 5.0
-bottom_radius = 5.0
-height = 0.1
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_0f3j7"]
-height = 0.1
-radius = 5.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c0wl8"]
 albedo_texture = ExtResource("3_ykvuh")
@@ -55,7 +39,33 @@ size = Vector2(40, 40)
 [sub_resource type="BoxShape3D" id="BoxShape3D_6fcai"]
 size = Vector3(40, 2.08165e-12, 20)
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_086sq"]
+bounce = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_48q3h"]
+albedo_texture = ExtResource("2_ylk3n")
+uv1_scale = Vector3(2, 2, 2)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cpd4l"]
+material = SubResource("StandardMaterial3D_48q3h")
+top_radius = 5.0
+bottom_radius = 5.0
+height = 0.1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0f3j7"]
+height = 0.1
+radius = 5.0
+
 [sub_resource type="SystemFont" id="SystemFont_3adtj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7nyls"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_67vtf"]
+bg_color = Color(0, 1, 0.560784, 1)
+
+[sub_resource type="Theme" id="Theme_1jpaw"]
+ProgressBar/styles/background = SubResource("StyleBoxEmpty_7nyls")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_67vtf")
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_daxj0")
@@ -69,17 +79,6 @@ light_color = Color(0.98, 1, 0.7, 1)
 light_energy = 0.858
 shadow_enabled = true
 sky_mode = 1
-
-[node name="Mat" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.05, 2.08165e-12)
-physics_material_override = SubResource("PhysicsMaterial_086sq")
-metadata/_edit_group_ = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Mat"]
-mesh = SubResource("CylinderMesh_cpd4l")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Mat"]
-shape = SubResource("CylinderShape3D_0f3j7")
 
 [node name="Backdrop" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, -6.66422e-31, 2.91302e-38, 0, -4.37114e-08, -1, 6.66422e-31, 1, -4.37114e-08, 0.032, 14.9108, -10.0892)
@@ -99,6 +98,17 @@ mesh = SubResource("PlaneMesh_qhfqh")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("BoxShape3D_6fcai")
 
+[node name="Mat" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.05, 2.08165e-12)
+physics_material_override = SubResource("PhysicsMaterial_086sq")
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mat"]
+mesh = SubResource("CylinderMesh_cpd4l")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mat"]
+shape = SubResource("CylinderShape3D_0f3j7")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Board" parent="CanvasLayer" instance=ExtResource("7_mmuyg")]
@@ -114,6 +124,30 @@ text = "
 font = SubResource("SystemFont_3adtj")
 outline_size = 7
 
+[node name="MovementTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+script = ExtResource("7_8r5q2")
+delay = 1.0
+
+[node name="meter" type="ProgressBar" parent="MovementTimer"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.994792
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -315.0
+offset_top = -650.0
+offset_right = 315.0
+offset_bottom = -643.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_1jpaw")
+rounded = true
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
 [connection signal="pogs_done" from="." to="CanvasLayer/Board" method="_on_game_pogs_done"]
 [connection signal="piece_destroyed" from="CanvasLayer/Board" to="." method="_on_board_piece_destroyed"]
 [connection signal="resolved" from="CanvasLayer/Board" to="." method="_on_board_resolved"]
+[connection signal="timeout" from="MovementTimer" to="." method="_on_movement_timer_timeout"]
